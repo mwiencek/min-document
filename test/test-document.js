@@ -491,6 +491,30 @@ function testDocument(document) {
         assert.end()
     })
 
+    test("document.firstChild", function(assert) {
+        assert.equal(document.firstChild, document.documentElement);
+        cleanup()
+        assert.end()
+    })
+
+    test("document.lastChild", function(assert) {
+        assert.equal(document.firstChild, document.documentElement);
+        cleanup()
+        assert.end()
+    })
+
+    test("document.nextSibling", function(assert) {
+        assert.equal(document.nextSibling, null);
+        cleanup()
+        assert.end()
+    })
+
+    test("document.previousSibling", function(assert) {
+        assert.equal(document.previousSibling, null);
+        cleanup()
+        assert.end()
+    })
+
     function blankAttributeNS() {
         // Most browsers conform to the latest version of the DOM spec,
         // which requires `getAttributeNS` to return `null` when the attribute

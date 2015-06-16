@@ -68,6 +68,40 @@ Node.prototype.insertBefore = function insertBefore(elem, needle) {
     return elem
 }
 
+Object.defineProperty(Node.prototype, "firstChild", {
+    get: function () {
+        return this.childNodes[0] || null
+    }
+})
+
+Object.defineProperty(Node.prototype, "lastChild", {
+    get: function () {
+        return this.childNodes[this.childNodes.length - 1] || null
+    }
+})
+
+function getSibling(node, offset) {
+    var parent = node.parentNode
+
+    if (parent) {
+        return parent.childNodes[parent.childNodes.indexOf(node) + offset] || null
+    }
+
+    return null
+}
+
+Object.defineProperty(Node.prototype, "nextSibling", {
+    get: function () {
+        return getSibling(this, 1)
+    }
+})
+
+Object.defineProperty(Node.prototype, "previousSibling", {
+    get: function () {
+        return getSibling(this, -1)
+    }
+})
+
 Node.prototype.dispatchEvent = require("./event/dispatch-event.js")
 Node.prototype.addEventListener = require("./event/add-event-listener.js")
 Node.prototype.removeEventListener = require("./event/remove-event-listener.js")
