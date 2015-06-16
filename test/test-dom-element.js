@@ -207,4 +207,17 @@ function testDomElement(document) {
         cleanup()
         assert.end()
     })
+
+    test("assigning to innerHTML", function(assert) {
+        var div = document.createElement("div")
+
+        div.innerHTML = "  <link/><table><!-- hi --></table><a href='/a'>a &nbsp;</a><input type=\"checkbox\" />";
+
+        assert.equal(
+            div.toString(),
+            '<div>  <link /><table><!-- hi --></table><a href="/a">a \u00A0</a><input type="text" type="checkbox" /></div>'
+        )
+        cleanup()
+        assert.end()
+    })
 }
