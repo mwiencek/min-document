@@ -1,3 +1,4 @@
+var parse5 = require("parse5")
 var dispatchEvent = require("./event/dispatch-event.js")
 var addEventListener = require("./event/add-event-listener.js")
 var removeEventListener = require("./event/remove-event-listener.js")
@@ -157,3 +158,41 @@ DOMElement.prototype.getElementsByTagName = function _Element_getElementsByTagNa
 Object.defineProperty(DOMElement.prototype, "firstChild", {get: firstChild});
 Object.defineProperty(DOMElement.prototype, "nextSibling", {get: sibling.next});
 Object.defineProperty(DOMElement.prototype, "previousSibling", {get: sibling.previous});
+
+Object.defineProperty(DOMElement.prototype, "innerHTML", {
+    get: function () {
+        return this.childNodes.map(serializeNode).join("")
+    },
+    set: function (html) {
+        var parser = new parse5.Parser()
+        var fragment = parser.parseFragment(html)
+        var doc = this.ownerDocument
+
+        this.childNodes = fragment.childNodes.map(function(src) {
+            return getParsedNode(doc, src)
+        })
+    }
+})
+
+function getParsedNode(doc, src) {
+    var node
+    switch (src.nodeName) {
+        case "#text":
+            node = doc.createTextNode(src.value)
+            break
+        case "#comment":
+            node = doc.createComment(src.data)
+            break
+        default:
+            node = doc.createElement(src.nodeName)
+
+            node.childNodes = src.childNodes.map(function(n) {
+                return getParsedNode(doc, n)
+            })
+
+            src.attrs.forEach(function(attr) {
+                node.setAttribute(attr.name, attr.value)
+            })
+    }
+    return node
+}

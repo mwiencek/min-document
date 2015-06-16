@@ -17,7 +17,8 @@
     "email": "raynos2@gmail.com"
   },
   "dependencies": {
-    "dom-walk": "^0.1.0"
+    "dom-walk": "^0.1.0",
+    "parse5": "^1.4.2"
   },
   "devDependencies": {
     "run-browser": "git://github.com/Raynos/run-browser",
