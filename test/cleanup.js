@@ -6,8 +6,8 @@ function Cleanup (document) {
 
     function cleanup () {
         var childNodes = document.body.childNodes
-        for (var i = 0; i < childNodes.length; i++) {
-            document.body.removeChild(childNodes[i])
+        while (childNodes.length) {
+            document.body.removeChild(childNodes[0])
         }
     }
 }

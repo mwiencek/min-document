@@ -8,6 +8,8 @@ var Event = require("./event.js")
 var dispatchEvent = require("./event/dispatch-event.js")
 var addEventListener = require("./event/add-event-listener.js")
 var removeEventListener = require("./event/remove-event-listener.js")
+var firstChild = require("./node/first-child.js")
+var sibling = require("./node/sibling.js")
 
 module.exports = Document;
 
@@ -120,3 +122,7 @@ proto.getElementsByTagName = function getElementsByTagName(tagName, parent) {
 proto.removeEventListener = removeEventListener
 proto.addEventListener = addEventListener
 proto.dispatchEvent = dispatchEvent
+
+Object.defineProperty(proto, "firstChild", {get: firstChild});
+Object.defineProperty(proto, "nextSibling", {get: sibling.next});
+Object.defineProperty(proto, "previousSibling", {get: sibling.previous});

@@ -2,6 +2,8 @@ var dispatchEvent = require("./event/dispatch-event.js")
 var addEventListener = require("./event/add-event-listener.js")
 var removeEventListener = require("./event/remove-event-listener.js")
 var serializeNode = require("./serialize.js")
+var firstChild = require("./node/first-child.js")
+var sibling = require("./node/sibling.js")
 
 var htmlns = "http://www.w3.org/1999/xhtml"
 
@@ -151,3 +153,7 @@ DOMElement.prototype.getElementsByClassName = function _Element_getElementsByCla
 DOMElement.prototype.getElementsByTagName = function _Element_getElementsByTagName(tagName) {
     return this.ownerDocument.getElementsByTagName(tagName, this)
 }
+
+Object.defineProperty(DOMElement.prototype, "firstChild", {get: firstChild});
+Object.defineProperty(DOMElement.prototype, "nextSibling", {get: sibling.next});
+Object.defineProperty(DOMElement.prototype, "previousSibling", {get: sibling.previous});

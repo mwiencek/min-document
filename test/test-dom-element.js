@@ -115,4 +115,41 @@ function testDomElement(document) {
         cleanup()
         assert.end()
     })
+
+    test("can get firstChild", function(assert) {
+        var e1 = document.createElement("div")
+        var e2 = document.createElement("p")
+
+        e1.appendChild(e2)
+        assert.equal(e1.firstChild, e2)
+
+        cleanup()
+        assert.end()
+    })
+
+    test("can get nextSibling", function(assert) {
+        var e1 = document.createElement("div")
+        var e2 = document.createElement("div")
+
+        document.body.appendChild(e1)
+        document.body.appendChild(e2)
+        assert.equal(e1.nextSibling, e2)
+        assert.equal(e2.nextSibling, null)
+
+        cleanup()
+        assert.end()
+    })
+
+    test("can get previousSibling", function(assert) {
+        var e1 = document.createElement("div")
+        var e2 = document.createElement("div")
+
+        document.body.appendChild(e1)
+        document.body.appendChild(e2)
+        assert.equal(e1.previousSibling, null)
+        assert.equal(e2.previousSibling, e1)
+
+        cleanup()
+        assert.end()
+    })
 }
