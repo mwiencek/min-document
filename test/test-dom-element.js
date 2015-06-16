@@ -60,8 +60,8 @@ function testDomElement(document) {
 
     test("does not serialize innerText as an attribute", function(assert) {
       var div = document.createElement("div")
-      div.innerText = "Test"
-      assert.equal(div.toString(), "<div>Test</div>")
+      div.innerText = "Test <&>"
+      assert.equal(div.toString(), "<div>Test &lt;&amp;&gt;</div>")
       cleanup()
       assert.end()
     })
@@ -116,6 +116,23 @@ function testDomElement(document) {
         assert.end()
     })
 
+    test("can serialize text nodes", function(assert) {
+        var div = document.createElement("div")
+        div.appendChild(document.createTextNode('<test> "&'))
+        assert.equal(div.toString(), '<div>&lt;test&gt; "&amp;</div>')
+
+        cleanup()
+        assert.end()
+    })
+
+    test("escapes serialized attribute values", function(assert) {
+        var div = document.createElement("div")
+        div.setAttribute("data-foo", '<p>"&')
+        assert.equal(div.toString(), '<div data-foo="&lt;p&gt;&quot;&amp;"></div>')
+        cleanup()
+        assert.end()
+    })
+
     test("can get firstChild", function(assert) {
         var e1 = document.createElement("div")
         var e2 = document.createElement("p")
@@ -135,7 +152,6 @@ function testDomElement(document) {
         document.body.appendChild(e2)
         assert.equal(e1.nextSibling, e2)
         assert.equal(e2.nextSibling, null)
-
         cleanup()
         assert.end()
     })
@@ -148,7 +164,6 @@ function testDomElement(document) {
         document.body.appendChild(e2)
         assert.equal(e1.previousSibling, null)
         assert.equal(e2.previousSibling, e1)
-
         cleanup()
         assert.end()
     })
