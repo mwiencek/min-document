@@ -1,3 +1,5 @@
+var extend = require("xtend")
+var isPlainObject = require('is-plain-object')
 var serializeNode = require("./serialize.js")
 
 module.exports = Node
@@ -66,6 +68,29 @@ Node.prototype.insertBefore = function insertBefore(elem, needle) {
 
     elem.parentNode = this
     return elem
+}
+
+
+Node.prototype.cloneNode = function cloneNode(deep) {
+    var clone = new this.constructor()
+
+    for (var key in this) {
+        if (this.hasOwnProperty(key)) {
+            var value = this[key];
+
+            if (isPlainObject(value)) {
+                clone[key] = extend(value)
+            } else {
+                clone[key] = value
+            }
+        }
+    }
+
+    if (this.childNodes) {
+        clone.childNodes = deep ? this.childNodes.map(function(child) { return child.cloneNode(true) }) : []
+    }
+
+    return clone
 }
 
 Object.defineProperty(Node.prototype, "firstChild", {

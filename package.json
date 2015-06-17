@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "dom-walk": "^0.1.0",
-    "parse5": "^1.4.2"
+    "is-plain-object": "^2.0.1",
+    "parse5": "^1.4.2",
+    "xtend": "^4.0.0"
   },
   "devDependencies": {
     "run-browser": "git://github.com/Raynos/run-browser",
