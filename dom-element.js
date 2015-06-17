@@ -1,5 +1,7 @@
 var domWalk = require("dom-walk")
+var forEach = require("for-each")
 var parse5 = require("parse5")
+var Attr = require("./dom-attr.js")
 var Node = require("./dom-node.js")
 var serializeNode = require("./serialize.js")
 
@@ -109,6 +111,24 @@ DOMElement.prototype.getElementsByTagName = function _Element_getElementsByTagNa
 
     return elems
 }
+
+Object.defineProperty(DOMElement.prototype, "attributes", {
+    get: function () {
+        var attributes = {}
+        var index = 0
+
+        function add(value, name) {
+            attributes[name] = value
+            attributes[index] = value
+        }
+
+        forEach(this._attributes, function(attrs, ns) {
+            forEach(attrs, add)
+        })
+
+        return attributes
+    }
+})
 
 Object.defineProperty(DOMElement.prototype, "innerHTML", {
     get: function () {
