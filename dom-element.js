@@ -125,6 +125,12 @@ Object.defineProperty(DOMElement.prototype, "innerHTML", {
     }
 })
 
+Object.defineProperty(DOMElement.prototype, "outerHTML", {
+    get: function () {
+        return this.toString()
+    }
+})
+
 function getParsedNode(doc, src) {
     var node
     switch (src.nodeName) {
