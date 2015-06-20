@@ -142,6 +142,30 @@ Object.defineProperty(Node.prototype, "previousSibling", {
     }
 })
 
+Object.defineProperty(Node.prototype, "textContent", {
+    get: function () {
+        switch (this.nodeType) {
+            case 3:
+            case 8:
+                return this.data
+            default:
+                return this.childNodes.map(function (node) {
+                    return node.textContent
+                }).join("")
+        }
+    },
+    set: function (text) {
+        switch (this.nodeType) {
+            case 3:
+            case 8:
+                this.data = text
+                break;
+            default:
+                this.childNodes = [this.ownerDocument.createTextNode(text)]
+        }
+    }
+})
+
 Node.prototype.dispatchEvent = require("./event/dispatch-event.js")
 Node.prototype.addEventListener = require("./event/add-event-listener.js")
 Node.prototype.removeEventListener = require("./event/remove-event-listener.js")
