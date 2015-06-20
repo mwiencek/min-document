@@ -1,13 +1,11 @@
 var domWalk = require("dom-walk")
 
+var Node = require("./dom-node.js")
 var Comment = require("./dom-comment.js")
 var DOMText = require("./dom-text.js")
 var DOMElement = require("./dom-element.js")
 var DocumentFragment = require("./dom-fragment.js")
 var Event = require("./event.js")
-var dispatchEvent = require("./event/dispatch-event.js")
-var addEventListener = require("./event/add-event-listener.js")
-var removeEventListener = require("./event/remove-event-listener.js")
 
 module.exports = Document;
 
@@ -22,10 +20,13 @@ function Document() {
     this.documentElement.appendChild(this.head)
     this.documentElement.appendChild(this.body)
     this.childNodes = [this.documentElement]
-    this.nodeType = 9
 }
 
-var proto = Document.prototype;
+var proto = new Node()
+Document.prototype = proto
+
+proto.nodeType = 9
+
 proto.createTextNode = function createTextNode(value) {
     return new DOMText(value, this)
 }
@@ -65,7 +66,3 @@ proto.getElementById = function getElementById(id) {
 
 proto.getElementsByClassName = DOMElement.prototype.getElementsByClassName
 proto.getElementsByTagName = DOMElement.prototype.getElementsByTagName
-
-proto.removeEventListener = removeEventListener
-proto.addEventListener = addEventListener
-proto.dispatchEvent = dispatchEvent

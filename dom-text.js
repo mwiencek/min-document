@@ -1,3 +1,5 @@
+var Node = require("./dom-node.js")
+
 module.exports = DOMText
 
 function DOMText(value, owner) {
@@ -10,6 +12,8 @@ function DOMText(value, owner) {
     this.ownerDocument = owner || null
 }
 
+DOMText.prototype = new Node()
+DOMText.prototype.constructor = DOMText
 DOMText.prototype.type = "DOMTextNode"
 DOMText.prototype.nodeType = 3
 

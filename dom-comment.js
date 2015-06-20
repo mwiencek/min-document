@@ -1,3 +1,5 @@
+var Node = require("./dom-node.js")
+
 module.exports = Comment
 
 function Comment(data, owner) {
@@ -11,6 +13,8 @@ function Comment(data, owner) {
     this.ownerDocument = owner || null
 }
 
+Comment.prototype = new Node()
+Comment.prototype.constructor = Comment
 Comment.prototype.nodeType = 8
 Comment.prototype.nodeName = "#comment"
 
