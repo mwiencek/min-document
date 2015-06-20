@@ -108,6 +108,38 @@ function testDomElement(document) {
         assert.end()
     })
 
+    test("getElement* methods can be passed to map()", function(assert) {
+        var container = document.createElement("div")
+        var e1 = document.createElement("div")
+        var e2 = document.createElement("span")
+        container.appendChild(e1)
+        container.appendChild(e2)
+
+        assert.deepEqual(
+            ["div", "span"].map(container.getElementsByTagName.bind(container)),
+            [[e1], [e2]]
+        )
+
+        e1.id = "1"
+        e2.id = "2"
+
+        assert.deepEqual(
+            ["1", "2"].map(container.getElementById.bind(container)),
+            [e1, e2]
+        )
+
+        e1.className = "foo"
+        e2.className = "bar"
+
+        assert.deepEqual(
+            ["foo", "bar"].map(container.getElementsByClassName.bind(container)),
+            [[e1], [e2]]
+        )
+
+        cleanup()
+        assert.end()
+    })
+
     test("can serialize comment nodes", function(assert) {
         var div = document.createElement("div")
         div.appendChild(document.createComment("test"))

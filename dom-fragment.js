@@ -1,4 +1,4 @@
-var DOMElement = require("./dom-element.js")
+var Node = require("./dom-node.js");
 
 module.exports = DocumentFragment
 
@@ -12,13 +12,10 @@ function DocumentFragment(owner) {
     this.ownerDocument = owner || null
 }
 
+DocumentFragment.prototype = new Node()
 DocumentFragment.prototype.type = "DocumentFragment"
 DocumentFragment.prototype.nodeType = 11
 DocumentFragment.prototype.nodeName = "#document-fragment"
-
-DocumentFragment.prototype.appendChild  = DOMElement.prototype.appendChild
-DocumentFragment.prototype.replaceChild = DOMElement.prototype.replaceChild
-DocumentFragment.prototype.removeChild  = DOMElement.prototype.removeChild
 
 DocumentFragment.prototype.toString =
     function _DocumentFragment_toString() {
