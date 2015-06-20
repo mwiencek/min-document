@@ -1,3 +1,4 @@
+var domWalk = require("dom-walk")
 var extend = require("xtend")
 var isPlainObject = require('is-plain-object')
 var serializeNode = require("./serialize.js")
@@ -91,6 +92,20 @@ Node.prototype.cloneNode = function cloneNode(deep) {
     }
 
     return clone
+}
+
+Node.prototype.contains = function contains(otherNode) {
+    if (!this.childNodes) {
+        return false
+    }
+
+    var result = domWalk(this.childNodes, function (node) {
+        if (node === otherNode) {
+            return true
+        }
+    })
+
+    return result || false
 }
 
 Object.defineProperty(Node.prototype, "firstChild", {
